@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #FAFAF9;
+  --foreground: #0C0E12;
+  --accent-purple: #7C3AED;
+  --accent-cyan: #0EA5E9;
+  --accent-mint: #34D399;
+  --accent-amber: #F59E0B;
+}
+
+body {  
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-purple);
+}
+
+/* --- Mesh Gradient Background --- */
+.mesh-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  contain: strict;
+}
+
+.mesh-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.15;
+  will-change: transform;
+}
+
+.orb-purple {
+  width: 650px;
+  height: 650px;
+  top: -12%;
+  left: -8%;
+  background: radial-gradient(circle, var(--accent-purple) 0%, transparent 70%);
+  animation: orbDrift1 25s ease-in-out infinite;
+}
+
+.orb-teal {
+  width: 550px;
+  height: 550px;
+  top: 35%;
+  right: -12%;
+  background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 70%);
+  animation: orbDrift2 28s ease-in-out infinite;
+}
+
+.orb-lime {
+  width: 500px;
+  height: 500px;
+  bottom: -8%;
+  left: 20%;
+  background: radial-gradient(circle, var(--accent-amber) 0%, transparent 70%);
+  animation: orbDrift3 22s ease-in-out infinite;
+}
+
+@keyframes orbDrift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(80px, 50px) scale(1.1); }
+  66%      { transform: translate(-40px, 90px) scale(0.9); }
+}
+
+@keyframes orbDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(-60px, 60px) scale(1.05); }
+  66%      { transform: translate(50px, -40px) scale(0.95); }
+}
+
+@keyframes orbDrift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(60px, -60px) scale(1.15); }
+  66%      { transform: translate(-80px, 30px) scale(0.85); }
+}
+
+/* --- Moving Border Glow for Waitlist Popup --- */
+.moving-border-glow {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+}
+
+.moving-border-glow::before {
+  content: "";
+  position: absolute;
+  top: -1.5px;
+  left: -1.5px;
+  right: -1.5px;
+  bottom: -1.5px;
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan), var(--accent-amber), var(--accent-purple));
+  background-size: 400% 400%;
+  border-radius: 17px;
+  z-index: -1;
+  animation: borderGlow 8s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes borderGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Glassmorphism Classes (Light Theme) */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(12, 14, 18, 0.06);
+}
+
+.glass-nav {
+  background: rgba(250, 250, 249, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(12, 14, 18, 0.05);
+}
+
+/* Hover effects */
+.hover-glow:hover {
+  box-shadow: 0 0 25px rgba(124, 58, 237, 0.25);
+}
+
+/* Scroll snap smoothness */
+html {
+  scroll-behavior: smooth;
+}
+
+/* GPU Acceleration Helper */
+.gpu-force {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* CTA Shimmer Animation */
+.cta-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Mobile & Tablet Viewport Performance Optimizations (< 1024px) */
+@media (max-width: 1023px) {
+  .orb-purple,
+  .orb-teal,
+  .orb-lime {
+    animation: none !important;
+  }
+
+  .moving-border-glow::before {
+    animation: none !important;
+    background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan), var(--accent-amber)) !important;
+  }
+
+  /* Remove paint-heavy backdrop blur filters and drop shadows to prevent scroll lag and layout repainting */
+  .glass-panel,
+  .glass-nav,
+  .hover-glow:hover,
+  [class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  [class*="shadow"] {
+    box-shadow: none !important;
+  }
+
+  .cta-shimmer::after {
+    animation: none !important;
+  }
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
