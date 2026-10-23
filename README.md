@@ -1,4 +1,5 @@
 # Todojan
+<img width="1280" height="673" alt="image" src="https://github.com/user-attachments/assets/9c070f3f-4980-4b93-b208-e8c378b6e67e" />
 
 **An open-source productivity task manager UI built with Next.js, Tailwind CSS and Framer Motion.**
 
